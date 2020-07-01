@@ -272,6 +272,7 @@ url={url}/pscc/{account_id}/device/search/
 url={url}/pscc/{account_id}/device/bind/
 请求
 {
+    "sn":"122343434",
     "park_id":11,
     "building_id":11,
     "unit":11,
