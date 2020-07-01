@@ -1,0 +1,7 @@
+.idea
+./*/bin/*
+*.DS_Store
+bin
+log
+pkg
+log/*
