@@ -2,9 +2,10 @@
 房屋管理*
 ********
 
-房屋管理搜所
-url={url}/pscc/{account_id}/park/
+房屋管理menu tree搜所
+url={url}/pscc/{business_id}/park/
 请求
+hearder: user_id=101, token="1111111111111111111"
 {"name":"A小区"}
 响应
 {
@@ -79,11 +80,75 @@ url={url}/pscc/{account_id}/park/
 	]
 }
 
-房间搜所
-url={url}/pscc/{account_id}/park/room/
+房屋管理menu tree联动菜单
 请求
+hearder: user_id=101, token="1111111111111111111"
+url={url}/pscc/{business_id}/address/{type}/{id}
+或
 {
-	"building_id": 1,
+	"type": 1,
+	"id": 1
+}
+响应
+{
+	"code": 1,
+	"desc": "成功",
+	"data": [{
+		"id": 1,
+		"name": "小区1"
+	}, {
+		"id": 2,
+		"name": "小区2"
+	}, {
+		"id": 3,
+		"name": "小区3"
+	}]
+}
+
+添加园区
+url={url}/pscc/{business_id}/add/park/
+请求
+hearder: user_id=101, token="1111111111111111111"
+{
+	"park_name": "碧桂园"
+}
+响应
+{
+	"code": 1,
+	"desc": "成功",
+	"data": {"park_id":11}
+}
+
+编辑园区 post
+url={url}/pscc/{business_id}/edit/park/{park_id}
+请求
+hearder: user_id=101, token="1111111111111111111"
+{
+	"park_name": "碧桂园"
+}
+响应
+{
+	"code": 1,
+	"desc": "成功"
+}
+
+删除园区 get
+url={url}/pscc/{business_id}/del/park/{park_id}
+请求
+hearder: user_id=101, token="1111111111111111111"
+响应
+{
+	"code": 1,
+	"desc": "成功"
+}
+
+房间搜所
+url={url}/pscc/{business_id}/park/{type}/{id}/room/
+请求
+hearder: user_id=101, token="1111111111111111111"
+{
+	"index": 1,
+	"page_size":30,
 	"room_name": "A101",
 	"status": 1
 }
@@ -110,9 +175,23 @@ url={url}/pscc/{account_id}/park/room/
 	]
 }
 
-添加楼栋
-url={url}/pscc/{account_id}/park/{park_id}/
+房间删除
+url={url}/pscc/{business_id}/del/{room_id}/room/
 请求
+hearder: user_id=101, token="1111111111111111111"
+
+响应
+{
+	"code": 1,
+	"desc": "成功"
+}
+
+
+
+添加楼栋
+url={url}/pscc/{business_id}/add/building/{park_id}/
+请求
+hearder: user_id=101, token="1111111111111111111"
 {
     "park_id":1,
     "building_name":"A座",
@@ -127,25 +206,76 @@ url={url}/pscc/{account_id}/park/{park_id}/
 	}
 }
 
-添加单元
-url={url}/pscc/{account_id}/building/{building_id}/
+编辑楼栋 post
+url={url}/pscc/{business_id}/edit/building/{building_id}/
 请求
+hearder: user_id=101, token="1111111111111111111"
+body
 {
-    "building_id":1,
+    "building_name":"A座",
+    "floor_num":7
+}
+响应
+{
+	"code": 1,
+	"desc": "成功"
+}
+
+删除楼栋 get
+url={url}/pscc/{business_id}/del/building/{building_id}/
+请求
+hearder: user_id=101, token="1111111111111111111"
+响应
+{
+	"code": 1,
+	"desc": "成功"
+}
+
+
+添加单元
+url=/pscc/{business_id}/add/unit/{building_id}/
+请求
+hearder: user_id=101, token="1111111111111111111"
+{
     "unit_name":"1单元"
 }
 响应
 {
 "code":1,
 "desc":"成功",
-"data":{"building_id":11}
+"data":{"unit_id":11}
 }
+
+编辑单元
+url={url}/pscc/{business_id}/edit/unit/{unit_id}
+请求
+hearder: user_id=101, token="1111111111111111111"
+请求
+{
+    "unit_name":"1单元"
+}
+响应
+{
+"code":1,
+"desc":"成功"
+}
+
+删除单元
+url={url}/pscc/{business_id}/del/unit/{unit_id}
+请求
+hearder: user_id=101, token="1111111111111111111"
+响应
+{
+"code":1,
+"desc":"成功"
+}
+
 
 添加房间
 url={url}/pscc/{account_id}/unit/{unit_id}
 请求
+hearder: user_id=101, token="1111111111111111111"
 {
-    "unit_id":11,
     "room_num":"A101",
     "alias":"A101室",
     "area":7.8,
@@ -162,9 +292,10 @@ url={url}/pscc/{account_id}/unit/{unit_id}
 
 
 查询房间信息
-url={url}/pscc/{account_id}/room/{room_id}
+url={url}/pscc/{business_id}/get/{room_id}/room/
 请求
 或者{"room_id",101}
+hearder: user_id=101, token="1111111111111111111"
 响应
 {
 	"code": 1,
@@ -183,9 +314,9 @@ url={url}/pscc/{account_id}/room/{room_id}
 
 查询用户信息
 请求
-url={url}/pscc/{account_id}/room/user/{room_id}
+url={url}/pscc/{business_id}/room/{room_id}/user/
+hearder: user_id=101, token="1111111111111111111"
 或者{"room_id",101}
-
 响应
 {
 	"code": 1,
@@ -210,11 +341,11 @@ url={url}/pscc/{account_id}/room/user/{room_id}
 
 添加转接号码
 请求
-url={url}/pscc/{account_id}/room/{room_id}/{phone_number}
+hearder: user_id=101, token="1111111111111111111"
+url={url}/pscc/{business_id}/room/{room_id}/{phone_number}
 或者{"room_id",101,
     "phone_number":"13444444444"
 }
-
 响应
 {
 	"code": 1,
@@ -223,7 +354,7 @@ url={url}/pscc/{account_id}/room/{room_id}/{phone_number}
 
 查询转接号码
 请求
-url={url}/pscc/{account_id}/room/phone/{room_id}
+url={url}/pscc/{business_id}/room/phone/{room_id}
 或者{"room_id",101}
 响应
 {
@@ -238,12 +369,14 @@ url={url}/pscc/{account_id}/room/phone/{room_id}
 通行管理*
 ********
 
-门进绑定查询
-
+门进绑定查询 post
 请求
-url={url}/pscc/{account_id}/device/search/
+hearder: user_id=101, token="1111111111111111111"
+url={url}/pscc/{business_id}/device/search/
 {
-	"name": "碧桂园1栋 1单元 门禁机",
+    "index":1,
+    "page_size":10,
+	"name":"碧桂园1栋 1单元 门禁机",
 	"status": 1
 }
 响应
@@ -251,6 +384,7 @@ url={url}/pscc/{account_id}/device/search/
 	"code": 1,
 	"desc": "成功",
 	"data": [{
+			"device_name": "碧桂园 1单元 门禁机",
 			"device_id": 1,
 			"sn": "13413424",
 			"status": 1,
@@ -258,24 +392,27 @@ url={url}/pscc/{account_id}/device/search/
 			"intercom_status": 1
 		},
 		{
-			"device_id": 2,
+		    "device_name": "碧桂园 2单元 门禁机",
+			"device_id": 0,
 			"sn": "23413424",
 			"status": 2,
-			"manager_area": "A小区>1号楼>1单元",
-			"intercom_status": 2
+			"manager_area": "",
+			"intercom_status": 0
 		}
 	]
 }
 
 
-门禁机绑定
-url={url}/pscc/{account_id}/device/bind/
+门禁机绑定 post
+url={url}/pscc/{business_id}/device/bind/
+hearder: user_id=101, token="1111111111111111111"
 请求
 {
+    "opt_type":1,
     "sn":"122343434",
     "park_id":11,
     "building_id":11,
-    "unit":11,
+    "unit_id":11,
     "intercom_status":1
 }
 响应
@@ -291,9 +428,12 @@ url={url}/pscc/{account_id}/device/bind/
 ********
 
 用户登记查询
-url={url}/pscc/{account_id}/user/reg_info/
+hearder: user_id=101, token="1111111111111111111"
+url={url}/pscc/{business_id}/user/reg_info/
 请求
 {
+"index":1,
+"page_size":20,
 "name":"小红",
 "phone_number": "13444444444",
 "user_type": 1,
@@ -324,35 +464,12 @@ url={url}/pscc/{account_id}/user/reg_info/
 	]
 }
 
-联动菜单
-请求
-url={url}/pscc/{account_id}/address/{type}/{id}
-或
-{
-	"type": 1,
-	"id": 1
-}
-响应
-{
-	"code": 1,
-	"desc": "成功",
-	"data": [{
-		"id": 1,
-		"name": "小区1"
-	}, {
-		"id": 2,
-		"name": "小区2"
-	}, {
-		"id": 3,
-		"name": "小区3"
-	}]
-}
 
-
-添加用户信息
-url={url}/pscc/{account_id}/user/addinfo/
+添加用户信息\修改
+url={url}/pscc/{business_id}/user/add_edit/
 请求 post ,头像
 {
+"user_id": 2,
 "park_id":11,
 "building_id":11,
 "unit_id":11,
@@ -369,4 +486,24 @@ avatar file
 "code":1,
 "desc":"成功",
 "data":{"user_id":1}
+}
+
+查询用户信息 get
+url={url}/pscc/{business_id}/user/{user_id}/
+hearder: user_id=101, token="1111111111111111111"
+响应：
+{
+"code":1,
+"desc":"成功",
+"data":{
+       "user_id": 2,
+       "park_id":11,
+       "building_id":11,
+       "unit_id":11,
+       "room_id":11,
+       "user_type":1,
+       "phone_number":"13444444444",
+       "name":"小红",
+       "avatar": "http://192.168.1.1/img/aa.jpg"
+       }
 }

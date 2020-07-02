@@ -107,8 +107,10 @@ CREATE TABLE `ps_cc_user` (
   `utime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`),
   KEY `idx_room_id` (`room_id`) USING BTREE,
+  KEY `idx_phone_number` (`phone_number`) USING BTREE,
   CONSTRAINT  FOREIGN KEY (`room_id`) REFERENCES `ps_cc_room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='人员表';
+
 
 CREATE TABLE `ps_cc_device_bind` (
   `sn` bigint(20) NOT NULL  COMMENT '设备码',
@@ -119,6 +121,7 @@ CREATE TABLE `ps_cc_device_bind` (
   `unit_id` bigint(20) NOT NULL DEFAULT 0  COMMENT '单元ID',
   `room_id` bigint(20) NOT NULL DEFAULT 0  COMMENT '房间ID',
   `status` tinyint(4) DEFAULT '0' COMMENT '状态：0：正常，1删除',
+  `intercom_status` tinyint(4) DEFAULT '0' COMMENT '云对讲：0：开启，1关闭',
   `ctime` timestamp NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
   `utime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`sn`),
