@@ -1,7 +1,9 @@
 package main
 
 import (
-	"community-cloud/test"
+	"community-cloud/config"
+	"community-cloud/db"
+	"community-cloud/logging"
 	"community-cloud/web"
 	"fmt"
 	"os"
@@ -11,6 +13,19 @@ import (
 )
 
 func init() {
+	//加载初始化.toml默认配置
+	if err := config.LoadConfigAndSetDefault(); err != nil {
+		panic(err.Error())
+	}
+
+	//初始化日志配置
+	if err := logging.InitZap(&config.GetConf().LogConf); err != nil {
+		panic("InitLogger:" + err.Error())
+	}
+	//初始化mysql库连接
+	if err := db.InitDbConn(config.GetConf()); err != nil {
+		panic("init db " + err.Error())
+	}
 
 }
 
@@ -22,7 +37,7 @@ func main() {
 	go web.Run()
 
 	//测试函数
-	test.Test()
+	//test.Test()
 
 	//监听退出指令
 	for s := range c {

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"community-cloud/config"
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -24,10 +25,10 @@ func Run() {
 	bindRouterV1(v1)
 
 	server = &http.Server{
-		Addr:    ":8080",
+		Addr:    config.GetConf().Base.WebAddr,
 		Handler: router,
 	}
-	router.Run() // listen and serve on 0.0.0.0:8080
+	router.Run() // listen and serve on 0.0.0.0:port
 }
 
 //服务退出

@@ -1,0 +1,24 @@
+title = "login toml config file"
+
+[base]
+    web_addr = ":9090"
+    root_dir = "/data/community-cloud"
+    var_dir = "/data/community-cloud"
+
+[log_conf]
+    project = "community"
+    name = "main"
+    log_dir  = "/log"
+    log_level = "info"
+    max_day = 7
+    rotate_seconds = 3600
+    extname=""
+
+[database]
+    [database.community-cloud]
+        mysql_master_conf = "root:root@tcp(172.31.1.21:3306)/pscc?timeout=15s"
+        mysql_slave_conf = "root:root@tcp(172.31.1.21:3306)/pscc?timeout=15s"
+        enable = 1
+    max_open_conn = 50
+    max_idle_conn = 20
+    max_life_time = 3600
