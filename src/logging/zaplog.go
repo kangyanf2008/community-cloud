@@ -6,9 +6,7 @@ import (
 	"github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"math/rand"
 	"path/filepath"
-	"strconv"
 	"time"
 )
 
@@ -19,13 +17,15 @@ type ZapLogger struct {
 }
 
 func NewZapLogger(conf *config.LogConf) *ZapLogger {
-
+	filename := ""
 	ext := conf.Extname
 	if ext == "" {
-		ext = strconv.FormatInt(rand.Int63(), 10)
+		filename = filepath.Join(conf.LogDir, fmt.Sprintf("%s-%s.log", conf.Project, conf.Name))
+	} else {
+		//ext = strconv.FormatInt(rand.Int63(), 10)
+		filename = filepath.Join(conf.LogDir, fmt.Sprintf("%s-%s.log.%s", conf.Project, conf.Name, ext))
 	}
 
-	filename := filepath.Join(conf.LogDir, fmt.Sprintf("%s-%s.log.%s", conf.Project, conf.Name, ext))
 	maxsize := conf.MaxSize
 	if maxsize <= 0 {
 		maxsize = 1024
@@ -54,6 +54,7 @@ func NewZapLogger(conf *config.LogConf) *ZapLogger {
 	}
 
 	hook, err := rotatelogs.New(
+		//filename+".%Y%m%d%H%M%S",
 		filename+".%Y%m%d%H%M%S",
 		//rotatelogs.WithLinkName(baseLogPaht),      						// 生成软链，指向最新日志文件
 		rotatelogs.WithMaxAge(time.Hour*24*time.Duration(conf.MaxDay)),             // 文件最大保存时间

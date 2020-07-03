@@ -7,12 +7,12 @@ title = "login toml config file"
 
 [log_conf]
     project = "community"
+    extname = ""
     name = "main"
     log_dir  = "/log"
     log_level = "info"
     max_day = 7
     rotate_seconds = 3600
-    extname=""
 
 [database]
     [database.community-cloud]
